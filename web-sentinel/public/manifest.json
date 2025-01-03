@@ -1,0 +1,12 @@
+{
+   "manifest_version": 3,
+   "name": "React Chrome Extension",
+   "description": "A Chrome extension with React and a navigation bar",
+   "version": "1.0",
+   "action": {
+     "default_popup": "index.html"
+   },
+   "permissions": ["storage"],
+   "host_permissions": ["<all_urls>"]
+ }
+ 

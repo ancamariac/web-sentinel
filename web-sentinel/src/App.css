@@ -1,14 +1,14 @@
 .App {
-  text-align: center;
-  background-color: #222229; /* Schimbă în culoarea dorită */
-  color: white;
+   text-align: center;
+   background-color: #222229; /* Schimbă în culoarea dorită */
+   color: white;
+   padding: 15px; /* Adaugă padding pentru a include culoarea de fundal în margini */
 }
 
 .App-logo {
-  height: 40vmin;
-  pointer-events: none;
+   height: 40vmin;
 }
-
+  
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

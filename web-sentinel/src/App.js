@@ -24,7 +24,7 @@ function App() {
 
   return (
     <div className="App">
-      <header className="text-center mt-4">
+      <header className="text-center">
         <h1>Phishing Detection Extension</h1>
       </header>
       <div className="alert alert-info">

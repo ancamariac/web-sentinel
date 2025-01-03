@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  background-color: #222229; /* Schimbă în culoarea dorită */
+  color: white;
 }
 
 .App-logo {
@@ -21,7 +23,7 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: rgb(35, 31, 42);
 }
 
 .App-link {
@@ -35,4 +37,9 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Dacă vrei să limitezi și înălțimea extensiei */
+body {
+   width: 400px;  /* Poți ajusta și înălțimea */
 }

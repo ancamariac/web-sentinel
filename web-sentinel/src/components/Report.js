@@ -1,7 +1,19 @@
-import React, { useState } from "react";
+/*global chrome*/
+import React, { useState, useEffect } from "react";
 
 function Report() {
   const [showReason, setShowReason] = useState(false);
+  const [url, setUrl] = useState("");
+
+  useEffect(() => {
+    // Verificăm dacă API-ul Chrome este disponibil
+    if (window.chrome && chrome.tabs) {
+      chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        const activeTab = tabs[0]; // Tab-ul activ
+        setUrl(activeTab.url); // Setăm URL-ul activ
+      });
+    }
+  }, []);
 
   const handleToggleChange = () => {
     setShowReason(!showReason);
@@ -14,7 +26,7 @@ function Report() {
         <p className="card-text">
           The URL of the site:{" "}
           <span id="pageUrl" className="fw-bold">
-            https://example.com
+            {url || "Loading..."}
           </span>
         </p>
 

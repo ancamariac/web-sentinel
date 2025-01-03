@@ -24,43 +24,35 @@ function App() {
 
   return (
     <div className="App">
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <div className="container-fluid">
-          <span className="navbar-brand">Phishing Extension</span>
-          <ul className="navbar-nav">
-            <li className="nav-item">
-              <button
-                className={`nav-link btn ${
-                  activeTab === "report" ? "active" : ""
-                }`}
-                onClick={() => setActiveTab("report")}
-              >
-                Report
-              </button>
-            </li>
-            <li className="nav-item">
-              <button
-                className={`nav-link btn ${
-                  activeTab === "analysis" ? "active" : ""
-                }`}
-                onClick={() => setActiveTab("analysis")}
-              >
-                Analysis
-              </button>
-            </li>
-            <li className="nav-item">
-              <button
-                className={`nav-link btn ${
-                  activeTab === "about" ? "active" : ""
-                }`}
-                onClick={() => setActiveTab("about")}
-              >
-                About
-              </button>
-            </li>
-          </ul>
-        </div>
-      </nav>
+      <header className="text-center mt-4">
+        <h1>Phishing Detection Extension</h1>
+      </header>
+      <div className="d-flex justify-content-center mt-4">
+        <button
+          className={`btn btn-outline-primary mx-2 ${
+            activeTab === "report" ? "active" : ""
+          }`}
+          onClick={() => setActiveTab("report")}
+        >
+          Report
+        </button>
+        <button
+          className={`btn btn-outline-primary mx-2 ${
+            activeTab === "analysis" ? "active" : ""
+          }`}
+          onClick={() => setActiveTab("analysis")}
+        >
+          Analysis
+        </button>
+        <button
+          className={`btn btn-outline-primary mx-2 ${
+            activeTab === "about" ? "active" : ""
+          }`}
+          onClick={() => setActiveTab("about")}
+        >
+          About
+        </button>
+      </div>
 
       <div className="container mt-4">{renderContent()}</div>
     </div>

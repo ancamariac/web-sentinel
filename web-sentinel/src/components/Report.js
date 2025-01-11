@@ -25,7 +25,6 @@ function Report() {
       // Dacă nu există un motiv, trimitem doar URL-ul
       const reportMessage = reason || "No reason provided.";
       console.log("Submitting report...");
-      console.log({ url, reason: reportMessage });
 
       // Trimite cererea către serverul backend
       const response = await fetch("http://localhost:5000/send-email", {
@@ -40,7 +39,6 @@ function Report() {
       });
 
       if (response.ok) {
-        alert("Report submitted successfully!");
         setReason(""); // Curăță textbox-ul după trimitere
       } else {
         alert("Failed to submit report. Please try again.");

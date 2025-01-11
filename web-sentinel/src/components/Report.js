@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 function Report() {
   const [showReason, setShowReason] = useState(false);
   const [url, setUrl] = useState("");
+  const [reason, setReason] = useState("");
 
   useEffect(() => {
     // Verificăm dacă API-ul Chrome este disponibil
@@ -17,6 +18,37 @@ function Report() {
 
   const handleToggleChange = () => {
     setShowReason(!showReason);
+  };
+
+  const handleSubmitReport = async () => {
+    try {
+      // Dacă nu există un motiv, trimitem doar URL-ul
+      const reportMessage = reason || "No reason provided.";
+      console.log("Submitting report...");
+      console.log({ url, reason: reportMessage });
+
+      // Trimite cererea către serverul backend
+      const response = await fetch("http://localhost:5000/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          url: url,
+          reason: reportMessage,
+        }),
+      });
+
+      if (response.ok) {
+        alert("Report submitted successfully!");
+        setReason(""); // Curăță textbox-ul după trimitere
+      } else {
+        alert("Failed to submit report. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error submitting report:", error);
+      alert("An error occurred. Please try again later.");
+    }
   };
 
   return (
@@ -50,10 +82,16 @@ function Report() {
           className="form-control mb-3"
           rows="3"
           placeholder="Enter your reason here..."
+          value={reason} // Legăm valoarea de state
+          onChange={(e) => setReason(e.target.value)} // Actualizăm valoarea
         />
       )}
 
-      <button className="btn btn-danger w-100" id="submitReport">
+      <button
+        className="btn btn-danger w-100"
+        id="submitReport"
+        onClick={handleSubmitReport}
+      >
         Submit Report
       </button>
     </div>

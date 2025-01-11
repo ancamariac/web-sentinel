@@ -19,15 +19,12 @@ function App() {
     setIsLoading(true);
     try {
       const model = await tf.loadLayersModel("/model/model.json"); // Încarcă modelul
-      console.log(inputUrl);
       // Extrag caracteristicile folosind featureExtraction
       const features = featureExtraction(inputUrl);
 
-      console.log(features); // Verifică ce returnează featureExtraction
       // Transform caracteristicile într-un tensor
       const processedInput = tf.tensor2d([features], [1, features.length]);
 
-      console.log(processedInput); // Verifică structura tensorului
       // Obțin predicția
       const prediction = model.predict(processedInput);
       const probability = prediction.dataSync()[0]; // Extrage valoarea din tensor

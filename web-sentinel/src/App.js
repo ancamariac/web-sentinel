@@ -79,7 +79,7 @@ function App() {
   return (
     <div className="App">
       <header className="text-center">
-        <h1>Phishing Detection Extension</h1>
+        <h1>Phishing Detection Extension 🌐🕵️‍♂️</h1>
       </header>
       <div className="alert alert-info">
         <h5>Website Security Risk</h5>

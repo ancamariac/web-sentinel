@@ -2,7 +2,8 @@
    text-align: center;
    background-color: #222229; /* Schimbă în culoarea dorită */
    color: white;
-   padding: 15px; /* Adaugă padding pentru a include culoarea de fundal în margini */
+   padding: 20px; /* Adaugă padding pentru a include culoarea de fundal în margini */
+   max-width: 400px;
 }
 
 .App-logo {

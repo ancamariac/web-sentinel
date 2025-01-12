@@ -6,8 +6,9 @@ function Report() {
   const [showReason, setShowReason] = useState(false);
   const [url, setUrl] = useState("");
   const [reason, setReason] = useState("");
+  const [reportStatus, setReportStatus] = useState(""); // State pentru mesajul de status
+  const [selectedCategory, setSelectedCategory] = useState(""); // State pentru categoria selectată (Phishing sau Legitimate)
   const [isReportSent, setIsReportSent] = useState(false); // State pentru a verifica dacă raportul a fost trimis
-  const [reportStatus, setReportStatus] = useState(""); // State pentru mesajul de status (succes sau deja trimis)
   const [showSuccessMessage, setShowSuccessMessage] = useState(false); // State pentru a arăta mesajul de succes
 
   useEffect(() => {
@@ -31,7 +32,18 @@ function Report() {
     setShowReason(!showReason);
   };
 
+  const handleCategoryChange = (e) => {
+    setSelectedCategory(e.target.value);
+  };
+
   const handleSubmitReport = async () => {
+    if (!selectedCategory) {
+      alert(
+        "Please select a category (Phishing or Legitimate) before submitting your report."
+      );
+      return;
+    }
+
     if (isReportSent) {
       // Dacă raportul a fost deja trimis pentru acest URL, se afișează doar mesajul de status
       setReportStatus("You have already submitted a report for this website.");
@@ -53,6 +65,7 @@ function Report() {
         body: JSON.stringify({
           url: url,
           reason: reportMessage,
+          category: selectedCategory, // Include categoria selectată
         }),
       });
 
@@ -64,6 +77,7 @@ function Report() {
         localStorage.setItem("reportedUrls", JSON.stringify(reportedUrls));
 
         setReason(""); // Curăță textbox-ul după trimitere
+        setSelectedCategory(""); // Resetează categoria
         setIsReportSent(true); // Setează că raportul a fost trimis
         setShowSuccessMessage(true); // Arată mesajul de succes
       } else {
@@ -83,14 +97,32 @@ function Report() {
       ) : (
         // Formularul inițial pentru raport
         <div>
-          <h6 className="card-title">Report Malicious URL</h6>
-          <br></br>
-          {/* Container pentru URL */}
-          <p>
-            <span id="pageUrl" className="fw-bold">
-              {url || "Loading..."}
-            </span>
-          </p>
+          <h6 className="card-title" style={{ display: "inline" }}>
+            Report URL :{" "}
+          </h6>
+          <span
+            id="pageUrl"
+            className="fw-bold"
+            style={{ fontStyle: "italic" }}
+          >
+            {url || "Loading..."}
+          </span>
+          {/* Dropdown pentru alegerea categoriei */}
+
+          <div className="mb-3">
+            <br></br>
+            <select
+              id="categorySelect"
+              className="form-select"
+              value={selectedCategory}
+              onChange={handleCategoryChange}
+              required
+            >
+              <option value="">Select Category</option>
+              <option value="Phishing">Phishing</option>
+              <option value="Legitimate">Legitimate</option>
+            </select>
+          </div>
 
           {/* Toggle pentru a adăuga un motiv */}
           <div

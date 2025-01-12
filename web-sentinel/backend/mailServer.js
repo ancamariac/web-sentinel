@@ -24,7 +24,7 @@ app.use(
 // Endpoint pentru a trimite email
 app.post("/send-email", async (req, res) => {
   console.log(req.body); // Afișează corpul cererii pentru a vedea ce se primește
-  const { url, reason } = req.body;
+  const { url, reason, category } = req.body; // Am adăugat `category`
 
   const request = mailjet.post("send", { version: "v3.1" }).request({
     Messages: [
@@ -40,7 +40,7 @@ app.post("/send-email", async (req, res) => {
           },
         ],
         Subject: "Malicious URL Report",
-        TextPart: `A report was submitted for the following URL: ${url}\n\nReason: ${reason}`,
+        TextPart: `A report was submitted for the following URL: ${url}\n\nReason: ${reason}\nCategory: ${category}`, // Include și categoria
         HTMLPart: `
           <!DOCTYPE html>
             <html lang="en">
@@ -140,6 +140,8 @@ app.post("/send-email", async (req, res) => {
                            <p><a href=${url} target="_blank" style="color: #345C72; text-decoration: underline;">${url}</a></p>
                            <h3>Reason Provided</h3>
                            <p class="reason">${reason}</p>
+                           <h3>Category</h3>
+                           <p class="reason">${category}</p> <!-- Am adăugat categoria aici -->
                            <p>We encourage you to review the reported website and take appropriate action to ensure the safety of users.</p>
                            <a href=${url} target="_blank" style="color: #ffffff; text-decoration: none; font-weight: bold; display: inline-block; padding: 10px 20px; background-color: #345C72; border-radius: 5px; text-align: center;">Visit Reported Website</a>
                         </td>
@@ -157,7 +159,6 @@ app.post("/send-email", async (req, res) => {
             </div>
             </body>
             </html>
-
         `,
       },
     ],

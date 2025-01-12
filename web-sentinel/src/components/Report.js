@@ -83,25 +83,47 @@ function Report() {
       ) : (
         // Formularul inițial pentru raport
         <div>
-          <h5 className="card-title">Report Malicious URL</h5>
-          <p className="card-text">
+          <h6 className="card-title">Report Malicious URL</h6>
+          <br></br>
+          {/* Container pentru URL */}
+          <p>
             <span id="pageUrl" className="fw-bold">
               {url || "Loading..."}
             </span>
           </p>
 
           {/* Toggle pentru a adăuga un motiv */}
-          <div className="form-check form-switch mb-3">
+          <div
+            className="form-check form-switch mb-3"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center", // Centrează pe orizontală
+              gap: "10px", // Spațiu între etichetă și toggle
+              width: "100%", // Ocupă întreaga lățime
+            }}
+          >
+            <label
+              className="form-check-label"
+              htmlFor="toggleReason"
+              style={{
+                fontWeight: "500",
+                fontSize: "15px",
+                margin: "0", // Elimină marginile implicite
+              }}
+            >
+              Add a reason
+            </label>
             <input
               className="form-check-input"
               type="checkbox"
               id="toggleReason"
               checked={showReason}
               onChange={handleToggleChange}
+              style={{
+                marginLeft: "0", // Asigură că toggle-ul nu se suprapune cu textul
+              }}
             />
-            <label className="form-check-label" htmlFor="toggleReason">
-              Add a reason
-            </label>
           </div>
 
           {/* Textbox care apare doar dacă toggle-ul este activat */}

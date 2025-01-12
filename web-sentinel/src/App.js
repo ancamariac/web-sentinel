@@ -37,7 +37,7 @@ function App() {
       if (probability >= 0.5) {
         classification = "Phishing";
       } else if (probability <= 0.3) {
-        classification = "Legitim";
+        classification = "Legit ";
       } else {
         classification = "Caution Advised";
       }

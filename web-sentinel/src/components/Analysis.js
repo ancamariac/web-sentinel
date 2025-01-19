@@ -3,7 +3,7 @@ import React from "react";
 function Analysis() {
   return (
     <div>
-      <h5>Request Detailed Analysis</h5>
+      <h5>Request Detailed Analysis 🔎</h5>
       <p className="card-text">
         Enter your email to request a detailed analysis of a URL.
       </p>

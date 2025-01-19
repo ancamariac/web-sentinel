@@ -6,7 +6,7 @@ import "./App.css";
 
 import Report from "./components/Report";
 import Analysis from "./components/Analysis";
-import About from "./components/About";
+import Settings from "./components/Settings";
 const { featureExtraction } = require("./components/featureExtractor");
 
 function App() {
@@ -69,8 +69,8 @@ function App() {
         return <Report />;
       case "analysis":
         return <Analysis />;
-      case "about":
-        return <About />;
+      case "settings":
+        return <Settings />;
       default:
         return <div>Select a tab</div>;
     }
@@ -112,11 +112,11 @@ function App() {
         </button>
         <button
           className={`btn btn-outline-primary mx-2 ${
-            activeTab === "about" ? "active" : ""
+            activeTab === "settings" ? "active" : ""
           }`}
-          onClick={() => setActiveTab("about")}
+          onClick={() => setActiveTab("settings")}
         >
-          About
+          Settings
         </button>
       </div>
 

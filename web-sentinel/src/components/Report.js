@@ -56,6 +56,9 @@ function Report() {
       const reportMessage = reason || "No reason provided.";
       console.log("Submitting report...");
 
+      const email =
+        localStorage.getItem("reportEmail") || "contact.websentinel@gmail.com";
+
       // Trimite cererea către serverul backend
       const response = await fetch("http://localhost:5000/send-email", {
         method: "POST",
@@ -66,6 +69,7 @@ function Report() {
           url: url,
           reason: reportMessage,
           category: selectedCategory, // Include categoria selectată
+          email: email,
         }),
       });
 

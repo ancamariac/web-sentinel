@@ -62,6 +62,7 @@ const getVirusTotalAnalysis = async (url) => {
     const stats = analysisResponse.data.data.attributes.stats;
 
     return {
+      scanId: scanId,
       clean: stats.harmless || 0,
       malicious: stats.malicious || 0,
       suspicious: stats.suspicious || 0,
@@ -75,20 +76,23 @@ const getVirusTotalAnalysis = async (url) => {
 };
 
 app.post("/send-email", async (req, res) => {
-  const { url, reason, category } = req.body;
+  const { url, reason, category, email } = req.body;
 
   // Obține analiza de la VirusTotal
   const vtAnalysis = await getVirusTotalAnalysis(url);
+
+  const scanLink = `https://www.virustotal.com/gui/url/${vtAnalysis.scanId}`;
 
   let vtInfo = "VirusTotal analysis unavailable.";
 
   if (vtAnalysis) {
     vtInfo = `
-      <h3>VirusTotal Analysis</h3>
-      <p><strong>Malicious reports:</strong> ${vtAnalysis.malicious}</p>
-      <p><strong>Harmless reports:</strong> ${vtAnalysis.clean}</p>
-      <p><strong>Unrated reports:</strong> ${vtAnalysis.unrated}</p>
-    `;
+     <h3>VirusTotal Analysis</h3>
+     <p><strong>Malicious reports:</strong> ${vtAnalysis.malicious}</p>
+     <p><strong>Harmless reports:</strong> ${vtAnalysis.clean}</p>
+     <p><strong>Unrated reports:</strong> ${vtAnalysis.unrated}</p>
+     <p><strong>Full analysis here:</strong> <a href="${scanLink}" target="_blank" style="color: #345C72; text-decoration: underline;">VirusTotal Analysis</a></p>
+   `;
   }
 
   // Trimite email-ul
@@ -101,7 +105,7 @@ app.post("/send-email", async (req, res) => {
         },
         To: [
           {
-            Email: "contact.websentinel@gmail.com",
+            Email: email,
             Name: "You",
           },
         ],

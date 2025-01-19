@@ -2,7 +2,9 @@ import React, { useState } from "react";
 
 function Settings() {
   // State pentru a salva adresa de email, cu valoarea implicită
-  const [email, setEmail] = useState("contact.websentinel@gmail.com");
+  const [email, setEmail] = useState(
+    localStorage.getItem("reportEmail") || "contact.websentinel@gmail.com"
+  );
 
   // Funcție pentru a gestiona modificările la câmpul de email
   const handleEmailChange = (event) => {
@@ -13,7 +15,7 @@ function Settings() {
   const handleSaveSettings = () => {
     // Aici ar trebui să salvezi adresa de email în localStorage sau într-o altă metodă de stocare
     localStorage.setItem("reportEmail", email);
-    alert("Adresa de email a fost salvată!");
+    alert("The email address was saved!");
   };
 
   return (
@@ -29,7 +31,9 @@ function Settings() {
         onChange={handleEmailChange} // Actualizează email-ul pe măsură ce utilizatorul scrie
         placeholder="Enter your email"
       />
-      <button className="btn btn-primary">Save email</button>
+      <button className="btn btn-primary" onClick={handleSaveSettings}>
+        Save email
+      </button>
     </div>
   );
 }

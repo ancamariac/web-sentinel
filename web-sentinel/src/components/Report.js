@@ -169,21 +169,21 @@ function Report() {
               className="form-control mb-3"
               rows="3"
               placeholder="Enter your reason here..."
-              value={reason} // Legăm valoarea de state
-              onChange={(e) => setReason(e.target.value)}
+             // Legăm valoarea de state
+               onChange={(e) => setReason(e.target.value)}
             />
-          )}
+            )}
 
-          <button
+            <button
             className="btn btn-primary w-100"
+            style={{ backgroundColor: '#0056b3' }}
             id="submitReport"
             onClick={handleSubmitReport}
             disabled={isReportSent}
-          >
+            >
             Submit
-          </button>
+            </button>
 
-          {/* Mesajul de status */}
           {reportStatus && (
             <div
               className={`alert mt-3 ${

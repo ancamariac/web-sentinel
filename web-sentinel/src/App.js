@@ -92,7 +92,8 @@ function App() {
       </div>
       <div className="d-flex justify-content-center mt-4">
         <button
-          className={`btn btn-outline-primary mx-2 ${
+          style={{ backgroundColor: "#0056b3" }}
+          className={`btn btn-primary mx-2 ${
             activeTab === "report" ? "active" : ""
           }`}
           onClick={() => setActiveTab("report")}
@@ -100,7 +101,8 @@ function App() {
           Submit Report
         </button>
         <button
-          className={`btn btn-outline-primary mx-2 ${
+          style={{ backgroundColor: "#0056b3" }}
+          className={`btn btn-primary mx-2 ${
             activeTab === "settings" ? "active" : ""
           }`}
           onClick={() => setActiveTab("settings")}

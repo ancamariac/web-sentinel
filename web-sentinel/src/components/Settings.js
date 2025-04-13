@@ -32,8 +32,11 @@ function Settings() {
         placeholder="Enter your email"
       />
       <br></br>
-      <button className="btn btn-primary w-100" onClick={handleSaveSettings}>
-        Save email
+      <button 
+         className="btn btn-primary w-100" 
+         style={{ backgroundColor: '#0056b3' }}
+         onClick={handleSaveSettings}>
+         Save email
       </button>
     </div>
   );

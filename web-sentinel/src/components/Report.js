@@ -170,17 +170,17 @@ function Report() {
               rows="3"
               placeholder="Enter your reason here..."
               value={reason} // Legăm valoarea de state
-              onChange={(e) => setReason(e.target.value)} // Actualizăm valoarea
+              onChange={(e) => setReason(e.target.value)}
             />
           )}
 
           <button
-            className="btn btn-danger w-100"
+            className="btn btn-primary w-100"
             id="submitReport"
             onClick={handleSubmitReport}
-            disabled={isReportSent} // Dezactivează butonul dacă raportul a fost trimis
+            disabled={isReportSent}
           >
-            Submit Report
+            Submit
           </button>
 
           {/* Mesajul de status */}

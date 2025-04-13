@@ -5,7 +5,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 import Report from "./components/Report";
-import Analysis from "./components/Analysis";
 import Settings from "./components/Settings";
 const { featureExtraction } = require("./components/featureExtractor");
 
@@ -67,8 +66,6 @@ function App() {
     switch (activeTab) {
       case "report":
         return <Report />;
-      case "analysis":
-        return <Analysis />;
       case "settings":
         return <Settings />;
       default:
@@ -100,15 +97,7 @@ function App() {
           }`}
           onClick={() => setActiveTab("report")}
         >
-          Report
-        </button>
-        <button
-          className={`btn btn-outline-primary mx-2 ${
-            activeTab === "analysis" ? "active" : ""
-          }`}
-          onClick={() => setActiveTab("analysis")}
-        >
-          Analysis
+          Submit Report
         </button>
         <button
           className={`btn btn-outline-primary mx-2 ${
@@ -116,7 +105,7 @@ function App() {
           }`}
           onClick={() => setActiveTab("settings")}
         >
-          Settings
+          Email Settings
         </button>
       </div>
 

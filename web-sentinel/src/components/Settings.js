@@ -20,7 +20,7 @@ function Settings() {
 
   return (
     <div>
-      <h5>The email of the security team 📧</h5>
+      <h5>Email of the analyzer 📧</h5>
       <p className="card-text">
         Enter the email address of the team that will receive your reports.
       </p>
@@ -31,7 +31,8 @@ function Settings() {
         onChange={handleEmailChange} // Actualizează email-ul pe măsură ce utilizatorul scrie
         placeholder="Enter your email"
       />
-      <button className="btn btn-primary" onClick={handleSaveSettings}>
+      <br></br>
+      <button className="btn btn-primary w-100" onClick={handleSaveSettings}>
         Save email
       </button>
     </div>

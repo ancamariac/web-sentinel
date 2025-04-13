@@ -10,6 +10,7 @@ function Report() {
   const [selectedCategory, setSelectedCategory] = useState(""); // State pentru categoria selectată (Phishing sau Legitimate)
   const [isReportSent, setIsReportSent] = useState(false); // State pentru a verifica dacă raportul a fost trimis
   const [showSuccessMessage, setShowSuccessMessage] = useState(false); // State pentru a arăta mesajul de succes
+  const [isLoading, setIsLoading] = useState(false); // Pentru loader
 
   useEffect(() => {
     // Verificăm dacă API-ul Chrome este disponibil
@@ -45,21 +46,18 @@ function Report() {
     }
 
     if (isReportSent) {
-      // Dacă raportul a fost deja trimis pentru acest URL, se afișează doar mesajul de status
       setReportStatus("You have already submitted a report for this website.");
       setShowSuccessMessage(true);
       return;
     }
 
     try {
-      // Dacă nu există un motiv, trimitem doar URL-ul
-      const reportMessage = reason || "No reason provided.";
-      console.log("Submitting report...");
+      setIsLoading(true); // 🔥 Afișează loaderul
 
+      const reportMessage = reason || "No reason provided.";
       const email =
         localStorage.getItem("reportEmail") || "contact.websentinel@gmail.com";
 
-      // Trimite cererea către serverul backend
       const response = await fetch("http://localhost:5000/send-email", {
         method: "POST",
         headers: {
@@ -68,28 +66,29 @@ function Report() {
         body: JSON.stringify({
           url: url,
           reason: reportMessage,
-          category: selectedCategory, // Include categoria selectată
+          category: selectedCategory,
           email: email,
         }),
       });
 
       if (response.ok) {
-        // După trimiterea raportului, stocăm URL-ul în localStorage pentru a preveni trimiterea ulterioară
         const reportedUrls =
           JSON.parse(localStorage.getItem("reportedUrls")) || [];
         reportedUrls.push(url);
         localStorage.setItem("reportedUrls", JSON.stringify(reportedUrls));
 
-        setReason(""); // Curăță textbox-ul după trimitere
-        setSelectedCategory(""); // Resetează categoria
-        setIsReportSent(true); // Setează că raportul a fost trimis
-        setShowSuccessMessage(true); // Arată mesajul de succes
+        setReason("");
+        setSelectedCategory("");
+        setIsReportSent(true);
+        setShowSuccessMessage(true);
       } else {
         alert("Failed to submit report. Please try again.");
       }
     } catch (error) {
       console.error("Error submitting report:", error);
       alert("An error occurred. Please try again later.");
+    } finally {
+      setIsLoading(false); // 🔥 Ascunde loaderul
     }
   };
 
@@ -169,20 +168,36 @@ function Report() {
               className="form-control mb-3"
               rows="3"
               placeholder="Enter your reason here..."
-             // Legăm valoarea de state
-               onChange={(e) => setReason(e.target.value)}
+              // Legăm valoarea de state
+              onChange={(e) => setReason(e.target.value)}
             />
-            )}
+          )}
 
-            <button
+          <button
             className="btn btn-primary w-100"
-            style={{ backgroundColor: '#0056b3' }}
+            style={{ backgroundColor: "#0056b3" }}
             id="submitReport"
             onClick={handleSubmitReport}
             disabled={isReportSent}
-            >
+          >
             Submit
-            </button>
+          </button>
+
+          {isLoading && (
+            <div className="text-center mt-3">
+              <p
+                style={{
+                  fontWeight: "500",
+                  marginBottom: "10px",
+                }}
+              >
+                Please wait while we prepare the report ...
+              </p>
+              <div className="spinner-border text-primary" role="status">
+                <span className="visually-hidden"></span>
+              </div>
+            </div>
+          )}
 
           {reportStatus && (
             <div

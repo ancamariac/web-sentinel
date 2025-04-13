@@ -51,9 +51,9 @@ function Report() {
       return;
     }
 
-    try {
-      setIsLoading(true); // 🔥 Afișează loaderul
+    setIsLoading(true); // 🔥 Afișează loaderul
 
+    try {
       const reportMessage = reason || "No reason provided.";
       const email =
         localStorage.getItem("reportEmail") || "contact.websentinel@gmail.com";
@@ -85,6 +85,7 @@ function Report() {
         alert("Failed to submit report. Please try again.");
       }
     } catch (error) {
+      setIsLoading(false);
       console.error("Error submitting report:", error);
       alert("An error occurred. Please try again later.");
     } finally {
@@ -97,7 +98,7 @@ function Report() {
       {isReportSent || showSuccessMessage ? (
         // Dacă raportul a fost trimis sau este deja trimis
         <ReportSubmitted /> // Afișează componenta ReportSubmitted
-      ) : (
+      ) : !isLoading ? (
         // Formularul inițial pentru raport
         <div>
           <h6 className="card-title" style={{ display: "inline" }}>
@@ -183,22 +184,6 @@ function Report() {
             Submit
           </button>
 
-          {isLoading && (
-            <div className="text-center mt-3">
-              <p
-                style={{
-                  fontWeight: "500",
-                  marginBottom: "10px",
-                }}
-              >
-                Please wait while we prepare the report ...
-              </p>
-              <div className="spinner-border text-primary" role="status">
-                <span className="visually-hidden"></span>
-              </div>
-            </div>
-          )}
-
           {reportStatus && (
             <div
               className={`alert mt-3 ${
@@ -209,6 +194,20 @@ function Report() {
               {reportStatus}
             </div>
           )}
+        </div>
+      ) : (
+        <div className="text-center mt-3">
+          <p
+            style={{
+              fontWeight: "500",
+              marginBottom: "10px",
+            }}
+          >
+            Please wait while we prepare the report ...
+          </p>
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden"></span>
+          </div>
         </div>
       )}
     </div>

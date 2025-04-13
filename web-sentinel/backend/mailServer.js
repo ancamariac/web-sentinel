@@ -26,11 +26,26 @@ app.use(
   })
 );
 
+const getUrlIdForGui = (url) => {
+  let base64Url = Buffer.from(url).toString("base64");
+
+  // VirusTotal folosește varianta "URL safe" de base64
+  base64Url = base64Url
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/, "");
+
+  return base64Url;
+};
+
 const getVirusTotalAnalysis = async (url) => {
   try {
+    const encodedUrl = new URLSearchParams({ url }).toString();
+
+    // Trimite URL-ul pentru analiză
     const submitResponse = await axios.post(
       "https://www.virustotal.com/api/v3/urls",
-      new URLSearchParams({ url }).toString(),
+      encodedUrl,
       {
         headers: {
           "x-apikey": VIRUSTOTAL_API_KEY,
@@ -39,14 +54,20 @@ const getVirusTotalAnalysis = async (url) => {
       }
     );
 
+    // Obține hash-ul (url_id) generat de VT — ASTA e ce ne trebuie pentru link
+    const urlId = submitResponse.data.data.id.split("-")[1]; // elimină prefixul "u-"
     const scanId = submitResponse.data.data.id;
 
+    console.log(`🔍 URL trimis spre analiză: ${url}`);
+    console.log(`✅ VirusTotal ID pentru GUI: ${urlId}`);
+    console.log(`🔗 Link: https://www.virustotal.com/gui/url/${urlId}`);
+
+    // Așteaptă analiza să fie gata
     let analysisResponse;
     let status = "queued";
 
-    // Așteaptă finalizarea analizei
     while (status === "queued" || status === "processing") {
-      await new Promise((resolve) => setTimeout(resolve, 5000)); // Așteaptă 5 secunde
+      await new Promise((resolve) => setTimeout(resolve, 3000));
       analysisResponse = await axios.get(
         `https://www.virustotal.com/api/v3/analyses/${scanId}`,
         {
@@ -55,19 +76,18 @@ const getVirusTotalAnalysis = async (url) => {
           },
         }
       );
-
       status = analysisResponse.data.data.attributes.status;
     }
 
     const stats = analysisResponse.data.data.attributes.stats;
 
     return {
-      scanId: scanId,
       clean: stats.harmless || 0,
       malicious: stats.malicious || 0,
       suspicious: stats.suspicious || 0,
       unrated: stats.undetected || 0,
-      results: analysisResponse.data.data.attributes.results,
+      scanId,
+      urlId,
     };
   } catch (err) {
     console.error("Error fetching VirusTotal data:", err.message);
@@ -78,21 +98,23 @@ const getVirusTotalAnalysis = async (url) => {
 app.post("/send-email", async (req, res) => {
   const { url, reason, category, email } = req.body;
 
-  // Obține analiza de la VirusTotal
   const vtAnalysis = await getVirusTotalAnalysis(url);
 
-  const scanLink = `https://www.virustotal.com/gui/url/${vtAnalysis.scanId}`;
-
+  let scanLink = "";
   let vtInfo = "VirusTotal analysis unavailable.";
 
-  if (vtAnalysis) {
+  if (vtAnalysis && vtAnalysis.urlId) {
+    scanLink = `https://www.virustotal.com/gui/url/${vtAnalysis.urlId}`;
+
     vtInfo = `
-     <h3>VirusTotal Analysis</h3>
-     <p><strong>Malicious reports:</strong> ${vtAnalysis.malicious}</p>
-     <p><strong>Harmless reports:</strong> ${vtAnalysis.clean}</p>
-     <p><strong>Unrated reports:</strong> ${vtAnalysis.unrated}</p>
-     <p><strong>Full analysis here:</strong> <a href="${scanLink}" target="_blank" style="color: #345C72; text-decoration: underline;">VirusTotal Analysis</a></p>
-   `;
+       <h3>VirusTotal Analysis</h3>
+       <p><strong>Malicious reports:</strong> ${vtAnalysis.malicious}</p>
+       <p><strong>Harmless reports:</strong> ${vtAnalysis.clean}</p>
+       <p><strong>Unrated reports:</strong> ${vtAnalysis.unrated}</p>
+       <p><strong>Full analysis here:</strong> <a href="${scanLink}" target="_blank" style="color: #345C72; text-decoration: underline;">VirusTotal Analysis</a></p>
+     `;
+  } else {
+    console.error("❌ Eroare: Nu s-a putut obține analiza de la VirusTotal.");
   }
 
   // Trimite email-ul

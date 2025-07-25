@@ -25,8 +25,8 @@ Users can report suspicious websites directly from the extension popup. When a s
 These reports help improve detection accuracy by feeding new samples back into the training pipeline.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/bc0b138c-56e7-4c03-932c-9724305ffdbb" width="400" />
-  <img src="https://github.com/user-attachments/assets/f8e2f030-a6f9-4ace-a7f8-9006179e0db2" width="470" />
+  <img src="https://github.com/user-attachments/assets/bc0b138c-56e7-4c03-932c-9724305ffdbb" width="200" />
+  <img src="https://github.com/user-attachments/assets/f8e2f030-a6f9-4ace-a7f8-9006179e0db2" width="235" />
 </p>
 
 
@@ -42,7 +42,7 @@ To enable email-based reporting:
 All reports are sent using a secure POST request to a backend or an SMTP integration, depending on your deployment setup.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/509e4838-6374-4bab-8935-018769664bce" width="422" />
+  <img src="https://github.com/user-attachments/assets/509e4838-6374-4bab-8935-018769664bce" width="211" />
 </p>
 
 ---
@@ -66,7 +66,8 @@ The model can be retrained periodically using new data collected from user repor
 
 ## 🕵️‍♂️ Reporting Overview
 
-<img width="963" height="541" alt="image" src="https://github.com/user-attachments/assets/b0250a19-da8b-426a-ae19-7d85c2a46d02" />
+<img src="https://github.com/user-attachments/assets/b0250a19-da8b-426a-ae19-7d85c2a46d02" width="75%" alt="image" />
+
 
 ---
 

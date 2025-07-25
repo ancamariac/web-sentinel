@@ -71,6 +71,22 @@ The model can be retrained periodically using new data collected from user repor
 
 ---
 
+## 🧠 Machine Learning Model
+
+The phishing detection engine used by **Web Sentinel** is powered by a supervised machine learning model trained to distinguish between legitimate and phishing URLs based on multiple features such as URL structure, domain entropy, and security indicators.
+
+You can find the full implementation, training pipeline, and evaluation results of the model in the companion repository:
+
+🔗 [Phishing Detection – ML Model Repository](https://github.com/ancamariac/phishing-detection)
+
+This separate repository includes:
+- Feature engineering logic
+- Model training scripts
+- Evaluation metrics and visualizations
+- Exported model files used in the Web Sentinel extension
+
+---
+
 ## 📦 Installation
 
 1. Clone the repository:
